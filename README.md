@@ -2,11 +2,12 @@
 Bash script to update docker containers and send release notes to Discord
 
 Features:
-- Use docker-compose to update provided list of containers.
+- Use docker-compose to update your provided list of containers.
 - Send Discord embed messages with release note information.
-- Hyperlink to updated version
+- Hyperlink to updated version on Github.
 - Keep track of container versioning.
 
+Example:
 ![](screenshot.png)
 
 
