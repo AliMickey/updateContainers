@@ -5,6 +5,7 @@ webhook=""
 githubToken=""
 username="Docker"
 avatar="https://assets.gitlab-static.net/uploads/-/system/project/avatar/7024001/AppLogo_Docker.png?width=64"
+updatesEnabled=true
 
 #Add your container names/repos below (Must be in same order).
 containerNames=(authelia bazarr jackett jellyfin letsencrypt lidarr nextcloud ombi pihole plex tautulli traccar transmission youtube-dl)
@@ -22,8 +23,11 @@ do
 	#If latest version is not recorded in file then update the container.
 	if ! grep "${containerNames[$count]}:$version" updateContainersVersion.txt
 	then
-		docker-compose pull ${containerNames[$count]}
-		docker-compose up -d ${containerNames[$count]}
+		if $updatesEnabled = true
+			then 
+				docker-compose pull ${containerNames[$count]}
+				docker-compose up -d ${containerNames[$count]}
+		fi
 		releaseNotes=$(jq '.body' updateContainersTemp.json)
 		url=$(jq -r '.html_url' updateContainersTemp.json)
 		
