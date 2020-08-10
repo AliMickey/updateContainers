@@ -6,6 +6,7 @@ githubToken=""
 username="Docker"
 avatar="https://assets.gitlab-static.net/uploads/-/system/project/avatar/7024001/AppLogo_Docker.png?width=64"
 updatesEnabled=true
+pruneEnabled=true
 
 #Add your container names/repos below (Must be in same order).
 containerNames=(authelia bazarr jackett jellyfin letsencrypt lidarr nextcloud ombi pihole plex tautulli traccar transmission youtube-dl)
@@ -46,4 +47,8 @@ do
 	let "count++"
 done
 #Cleanup
+if $pruneEnabled = true
+	then
+		docker image prune
+fi
 rm updateContainersTemp.json
