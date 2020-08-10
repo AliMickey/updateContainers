@@ -6,6 +6,7 @@ Features:
 - Send Discord embed messages with release note information.
 - Hyperlink to updated version on Github.
 - Keep track of container versioning.
+- Option to only track release notes (no container updates).
 
 Example:
 
