@@ -46,6 +46,11 @@ do
 	fi
 	let "count++"
 done
+#Restart plex container for automatic update.
+if [[ " ${containerNames[*]} " == *" plex "* ]] && [[ " $updatesEnabled " ]]
+then
+	docker-compose restart plex
+fi
 #Cleanup
 if $pruneEnabled = true
 	then
