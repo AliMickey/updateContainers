@@ -9,11 +9,12 @@ updatesEnabled=true
 pruneEnabled=true
 
 #Add your container names/repos below (Must be in same order).
-containerNames=(authelia bazarr jackett jellyfin letsencrypt lidarr nextcloud ombi pihole plex tautulli traccar transmission youtube-dl)
+containerNames=(bazarr jellyfin pihole)
 lsio="linuxserver/docker"
-containerRepos=(authelia/authelia $lsio-bazarr $lsio-jackett $lsio-jellyfin $lsio-letsencrypt $lsio-lidarr $lsio-nextcloud $lsio-ombi pi-hole/pi-hole $lsio-plex $lsio-tautulli traccar/traccar haugene/docker-transmission-openvpn tzahi12345/youtubedl-material)
+containerRepos=($lsio-bazarr $lsio-jellyfin pi-hole/pi-hole)
 
 declare -i count=0
+logFile=updateContainersLog.txt
 
 #Update loop
 for i in "${containerRepos[@]}"
@@ -28,6 +29,7 @@ do
 			then 
 				docker-compose pull ${containerNames[$count]}
 				docker-compose up -d ${containerNames[$count]}
+				echo ${containerNames[$count]} "updated at" $(date +"%m/%d/%Y") >> $logFile
 		fi
 		releaseNotes=$(jq '.body' updateContainersTemp.json)
 		url=$(jq -r '.html_url' updateContainersTemp.json)
@@ -52,8 +54,8 @@ then
 	docker-compose restart plex
 fi
 #Cleanup
+rm updateContainersTemp.json
 if $pruneEnabled = true
 	then
 		docker image prune
 fi
-rm updateContainersTemp.json
